@@ -1,11 +1,13 @@
-import { Container, Col, Row } from 'react';
+import { Container, Row, Col } from 'reactstrap';
 import SubHeader from '../components/SubHeader';
-
+import ContactForm from '../components/ContactForm';
 
 const ContactPage = () => {
     return (
         <Container>
+
             <SubHeader current="Contact Us" />
+
             <Row className='row-content align-items-center'>
                 <Col sm='4'>
                     <h5>Our Address</h5>
@@ -15,14 +17,14 @@ const ContactPage = () => {
                         <br />
                         U.S.A.</address>
                 </Col>
-                <Col>                    
-                <a
-                    role='button'
-                    className='btn btn-link'
-                    href='tel:+12065551234'
-                >
-                    <i className='fa fa-phone' /> 1-206-555-1234
-                </a>
+                <Col>
+                    <a
+                        role='button'
+                        className='btn btn-link'
+                        href='tel:+12065551234'
+                    >
+                        <i className='fa fa-phone' /> 1-206-555-1234
+                    </a>
                     <br />
                     <a
                         role='button'
@@ -39,10 +41,11 @@ const ContactPage = () => {
                     <h2>Send Us Your Feedback</h2>
                     <hr />
                 </Col>
-                <Col md='10'>TBD: ContactForm</Col>
+                <Col md='10'>
+                    <ContactForm />
+                </Col>
             </Row>
         </Container>
-
     );
 };
 

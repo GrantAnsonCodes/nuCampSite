@@ -1,5 +1,11 @@
-import { Col } from 'reactstrap';import Comment from './Comment';import { selectCommentsByCampsiteId } from './commentsSlice';
-const CommentsList = ({ campsiteId }) => {    const comments = selectCommentsByCampsiteId(campsiteId);
+import { useSelector } from 'react-redux';
+import { Col } from 'reactstrap';
+import Comment from './Comment';
+import { selectCommentsByCampsiteId } from './commentsSlice';
+import CommentForm from './CommentForm';
+
+const CommentsList = ({ campsiteId }) => {
+    const comments = useSelector(selectCommentsByCampsiteId(campsiteId));
 
     if (comments && comments.length > 0) {
         return (
@@ -8,6 +14,7 @@ const CommentsList = ({ campsiteId }) => {    const comments = selectCommentsByC
                 {comments.map((comment) => {
                     return <Comment key={comment.id} comment={comment} />;
                 })}
+                <CommentForm campsiteId={campsiteId} />
             </Col>
         );
     }
