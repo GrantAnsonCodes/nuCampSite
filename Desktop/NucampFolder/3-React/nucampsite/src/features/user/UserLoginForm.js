@@ -60,8 +60,8 @@ export const UserLoginForm = () => {
                         password: ''
                     }}
 
-                        validate={validateUserLoginForm()}
-                        onSubmit={handleLogin()}>
+                        validate={validateUserLoginForm}
+                        onSubmit={handleLogin}>
                         <Form>
                             <FormGroup>
                                 <Label htmlFor='username'>Username</Label>
