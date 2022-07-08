@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 //import { CAMPSITES } from '../../app/shared/CAMPSITES';
-import { baseUrl } from '../../app/shared/BaseUrl';
+import { baseUrl } from '../../app/shared/baseUrl';
 import { mapImageURL } from '../../utils/mapImageURL';
 
 export const fetchCampsites = createAsyncThunk(
@@ -33,7 +33,7 @@ const campsitesSlice = createSlice({
             state.isLoading = false;
             state.errMsg = '';
             state.campsitesArray = mapImageURL(action.payload);
-        }, 
+        },
         [fetchCampsites.rejected]: (state, action) => {
             state.isLoading = false;
             state.errMsg = action.error ? action.error.message : 'Fetch failed';
@@ -54,6 +54,11 @@ export const selectCampsiteById = (id) => (state) => {
 };
 
 export const selectFeaturedCampsite = (state) => {
-    return state.campsites.campsitesArray.find(
-        (campsite) => campsite.featured);
+    return {
+        featuredItem: state.campsites.campsitesArray.find(
+            (campsite) => campsite.featured
+        ),
+        isLoading: state.campsites.isLoading,
+        errMsg: state.campsites.errMsg
+    };
 };
