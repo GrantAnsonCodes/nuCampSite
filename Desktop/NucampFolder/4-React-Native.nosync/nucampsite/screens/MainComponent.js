@@ -13,13 +13,19 @@ import AboutScreen from './AboutScreen';
 import ContactScreen from './ContactScreen';
 import { Icon } from 'react-native-elements';
 import logo from '../assets/images/logo.png';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { fetchPartners } from '../features/partners/partnersSlice';
+import { fetchCampsites } from '../features/campsites/campsitesSlice';
+import { fetchPromotions } from '../features/promotions/promotionsSlice';
+import { fetchComments } from '../features/comments/commentsSlice';
 
 const Drawer = createDrawerNavigator();
 
 const screenOptions = {
     headerTintColor: '#fff',
     headerStyle: { backgroundColor: '#5637DD' }
-}
+};
 
 const HomeNavigator = () => {
     const Stack = createStackNavigator();
@@ -50,7 +56,7 @@ const AboutNavigator = () => {
         <Stack.Navigator screenOptions={screenOptions}>
             <Stack.Screen
                 name='About'
-                component={AboutNavigator}
+                component={AboutScreen}
                 options={({ navigation }) => ({
                     headerLeft: () => (
                         <Icon
@@ -94,12 +100,7 @@ const DirectoryNavigator = () => {
     return (
         <Stack.Navigator
             initialRouteName='Directory'
-            screenOption={{
-                headerStyle: {
-                    backgroundColor: '#5637DD'
-                },
-                headerTintColor: '#fff'
-            }}
+            screenOptions={screenOptions}
         >
             <Stack.Screen
                 name='Directory'
@@ -129,7 +130,7 @@ const DirectoryNavigator = () => {
 
 const CustomDrawerContent = (props) => (
     <DrawerContentScrollView {...props}>
-        <View style={styles.DrawerHeader}>
+        <View style={styles.drawerHeader}>
             <View style={{ flex: 1 }}>
                 <Image source={logo} style={styles.drawerImage} />
             </View>
@@ -142,6 +143,15 @@ const CustomDrawerContent = (props) => (
 );
 
 const Main = () => {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(fetchCampsites());
+        dispatch(fetchPromotions());
+        dispatch(fetchPartners());
+        dispatch(fetchComments());
+    }, [dispatch]);
+
     return (
         <View
             style={{
@@ -158,7 +168,7 @@ const Main = () => {
                 <Drawer.Screen
                     name='Home'
                     component={HomeNavigator}
-                    option={{
+                    options={{
                         title: 'Home',
                         drawerIcon: ({ color }) => (
                             <Icon
@@ -220,7 +230,7 @@ const Main = () => {
                     }}
                 />
             </Drawer.Navigator>
-        </View >
+        </View>
     );
 };
 
@@ -248,6 +258,6 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 24
     }
-})
+});
 
 export default Main;
