@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, PanResponder, Alert } from 'react-native';
 import { Card, Icon } from 'react-native-elements';
 import { baseUrl } from '../../shared/BaseUrl';
 import * as Animatable from 'react-native-animatable';
+import CampsiteInfoScreen from '../../screens/CampsiteInfoScreen';
 
 const RenderCampsite = (props) => {
     const { campsite } = props;
@@ -10,6 +11,17 @@ const RenderCampsite = (props) => {
     const view = useRef();
 
     const isLeftSwipe = ({ dx }) => dx < -200;
+
+    const isRightSwipe = ({ dx }) => {
+        if (isRightSwipe(dx > 200)) {
+            return true
+        }
+        else {
+            return false
+        }
+    };
+
+    const { ShowModal } = CampsiteInfoScreen;
 
     const panResponder = PanResponder.create({
         onStartShouldSetPanResponder: () => true,
@@ -20,14 +32,15 @@ const RenderCampsite = (props) => {
                     console.log(endState.finished ? 'finished' : 'canceled')
                 );
         },
+
         onPanResponderEnd: (e, gestureState) => {
             console.log('pan responder end', gestureState);
             if (isLeftSwipe(gestureState)) {
                 Alert.alert(
                     'Add Favorite',
                     'Are you sure you wish to add ' +
-                        campsite.name +
-                        ' to favorites?',
+                    campsite.name +
+                    ' to favorites?',
                     [
                         {
                             text: 'Cancel',
@@ -44,9 +57,11 @@ const RenderCampsite = (props) => {
                     ],
                     { cancelable: false }
                 );
-            }
+            } else if (isRightSwipe(gestureState)) {
+                ShowModal();
+            };
         }
-    });
+    })
 
     if (campsite) {
         return (
@@ -88,10 +103,10 @@ const RenderCampsite = (props) => {
                     </View>
                 </Card>
             </Animatable.View>
-        );
+        )
     }
     return <View />;
-};
+}
 
 const styles = StyleSheet.create({
     cardContainer: {
